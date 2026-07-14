@@ -1,43 +1,39 @@
 // Problem: Longest Substring Without Repeating Characters
 
 export function lengthOfLongestNonRepeatingSubstring(s: string): number {
-    let maxLengthString = '';
-    let currentString = s.charAt(0);
+    let currIndex = 0;
+    let substringStartIndex = 0;
+    let maxLength = 0;
+    const charMap = new Map<string, number>();
 
-    for(let i= 1; i < s.length; i++) {
-        const currChar = s.charAt(i);
-        if (!currentString.includes(currChar)) {
-            currentString = currentString.concat(currChar);
+    while(currIndex < s.length) {
+        if (!charMap.has(s.charAt(currIndex))) {
+            charMap.set(s.charAt(currIndex), currIndex);
+            currIndex++;
         } else {
-            if (maxLengthString.length < currentString.length) {
-                maxLengthString = currentString;
+            const repeatedCharIndex =  charMap.get(s.charAt(currIndex))!;
+            charMap.set(s.charAt(currIndex), currIndex);
+            if (repeatedCharIndex >= substringStartIndex) {
+                maxLength = Math.max(maxLength, (currIndex - substringStartIndex));
+                substringStartIndex = repeatedCharIndex + 1;
             }
-            const repeatedCharIndex = currentString.indexOf(currChar);
-            if (repeatedCharIndex == currentString.length - 1) {
-                currentString = currentString.slice(repeatedCharIndex);
-            } else {
-                currentString = currentString.slice(repeatedCharIndex + 1).concat(currChar);
-            }
-            }
+            currIndex++;
         }
-
-    if (currentString.length > maxLengthString.length) {
-        maxLengthString = currentString;
     }
-    return maxLengthString.length;
+    return  Math.max(maxLength, (currIndex - substringStartIndex));
 }
 
-
 /** Approach:
- * start by adding the first char to the string
- * keep adding char to the current string if they are unique
- * if a char is repeated
- *  1. check the length with maxLengthString. If more, update maxLengthString
- *  2. Chop off the current string till the repeating character. so, if currString = abc and char = b, then the chopped new string will be c
- *      If the index is the last one, it means the whole currString has to be discarded.
- *  3. To this newly chopped string, add the curr character to build the next sequence
- *  4. Repeat the checks
- *
- * Time complexity: O(nk) n is the length of the string (outer for loop) and k is the length of curr string (for includes operation and indexOf operation)
- * Space complexity: O(n)
+ * Sliding window
+ * You keep track of what characters were seen and when in a map (char, index)
+ * As a repeated char is encountered,
+ *     1. you increase the index in the map
+ *     2. if your repeated char index is after the longest substring start index,
+ *          i. Calculate the max length based on the current substring length
+ *          ii. move the longest substring start index to after the first occurrence of the repeated char, so the sequence can be built from there.
+ *        Otherwise, don't do anything because the older occurrence is not counted anymore. the new substring doesn't include that old occurrence from before the starting point.
+ * Run till the end of the string
+ * Calculate max length again to see if the value has changed.
+ * Time complexity: O(n)
+ * Space complexity: 0(n) because of the map
  */
