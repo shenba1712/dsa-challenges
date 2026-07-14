@@ -1,0 +1,28 @@
+{
+  "name": "dsa-challenges",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "test:debug": "vitest --inspect-brk run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shenba1712/dsa-challenges.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/shenba1712/dsa-challenges/issues"
+  },
+  "homepage": "https://github.com/shenba1712/dsa-challenges#readme",
+  "dependencies": {
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
+  }
+}
