@@ -16,7 +16,10 @@ describe('valid parentheses test', () => {
         ['{{}}]', false],
         ['{([])', false],
         [')', false],
-        ['{', false]
+        ['{', false],
+        ['[test]', true],
+        ['test[]', true],
+        ['[test}', false]
     ];
 
     it.each(testData)

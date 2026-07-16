@@ -3,10 +3,16 @@
 export function isValidParentheses(s: string): boolean {
     const parentheses: string[] = []
     const openingBrackets = ['(', '[', '{'];
+    const closingBrackets = [')', ']', '}'];
 
     for(let i=0; i < s.length; i++) {
         if (openingBrackets.includes(s[i]!)) {
             parentheses.push(s[i]!);
+            continue;
+        }
+
+        // random key entered. ignore.
+        if (!closingBrackets.includes(s[i]!)) {
             continue;
         }
         const lastBracket = parentheses.pop();
